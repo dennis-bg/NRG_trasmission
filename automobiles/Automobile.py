@@ -19,6 +19,8 @@ class Automobile(ABC):
     def downShift(self):
         if self.currGear == Gear.NEUTRAL:
             print("You are in Neutral")
+        elif self.currGear == Gear.REVERSE:
+            print("You are in Reverse")
         else:
             self.currGear = self.currGear - 1
 
