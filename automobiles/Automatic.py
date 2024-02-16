@@ -43,20 +43,40 @@ class Automatic(Automobile):
                 print(e)
                 break
 
-    def handleShiftChange(self):
-        pass
+    def setPark(self):
+        self.currGear = Gear.PARK
 
     def drive(self):
-        self.currGear = Gear.FIRST
-        self.accelerate(45)
-        self.decelerate(10)
+        pass
+
+    def handleShiftChange(self, action):
+        if action in ['p', 'P']:
+            self.setPark()
+        elif action in ['r', 'R']:
+            self.setReverse()
+        elif action in ['n', 'N']:
+            self.setNeutral()
+        elif action in ['d' 'D']:
+            self.drive()
+
+    def displayOptions(self):
+        print(f"\nCurrent Gear : {self.currGear.name}\n")
+        print(f"{Gear.PARK.name} : 'p' or 'P'\n{Gear.REVERSE.name} : 'r' or 'R'\n{Gear.NEUTRAL.name} : 'n' or 'N'")
+        print("DRIVE : 'd' or 'D'")
+        print("QUIT : 'q' or 'Q'")
+        print(f"\nWhat Gear would you like to switch too? (Options Above) : ", end='')
+
+    def operate(self):
+        action = 'p'
+        while action not in ['q', 'Q']:
+            self.handleShiftChange(action)
+            self.displayOptions()
+            action = input()
 
 
 def main():
     automatic_car = Automatic("Toyota", 5, 6000)
-    print("Starting acceleration...")
-    automatic_car.drive()
-    print("Acceleration finished.")
+    automatic_car.operate()
 
 
 if __name__ == "__main__":
