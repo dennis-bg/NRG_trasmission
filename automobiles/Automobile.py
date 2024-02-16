@@ -18,8 +18,8 @@ class Automobile(ABC):
             self.currGear = Gear(self.currGear.value + 1)
 
     def downShift(self):
-        if self.currGear == Gear.NEUTRAL or self.currGear == Gear.REVERSE:
-            raise Exception(f"You are in {self.currGear.name}")
+        if self.currGear in [Gear.NEUTRAL, Gear.REVERSE]:
+            raise Exception(f"You are in {self.currGear.name} and cannot down shift")
         else:
             self.currGear = Gear(self.currGear.value - 1)
 
@@ -34,5 +34,9 @@ class Automobile(ABC):
         pass
 
     @abstractmethod
-    def drive(self):
+    def displayOptions(self):
+        pass
+
+    @abstractmethod
+    def operate(self):
         pass
