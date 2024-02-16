@@ -43,6 +43,9 @@ class Automatic(Automobile):
                 print(e)
                 break
 
+    def handleShiftChange(self):
+        pass
+
     def drive(self):
         self.currGear = Gear.FIRST
         self.accelerate(45)

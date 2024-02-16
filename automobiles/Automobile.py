@@ -25,11 +25,13 @@ class Automobile(ABC):
 
     def setNeutral(self):
         self.currGear = Gear.NEUTRAL
-        print("You are in Neutral")
 
     def setReverse(self):
         self.currGear = Gear.REVERSE
-        print("You are in Reverse")
+
+    @abstractmethod
+    def handleShiftChange(self, action):
+        pass
 
     @abstractmethod
     def drive(self):
