@@ -4,6 +4,12 @@ from NRG_trasmission.automobiles.Automobile import Automobile
 from NRG_trasmission.automobiles.Gear import Gear
 
 
+def displayNonDriveOptions():
+    print(f"{Gear.PARK.name}    : 'p' or 'P'")
+    print(f"{Gear.REVERSE.name} : 'r' or 'R'")
+    print(f"{Gear.NEUTRAL.name} : 'n' or 'N'")
+
+
 class Automatic(Automobile):
 
     def __init__(self, name, noGears, redLineRevs):
@@ -17,8 +23,8 @@ class Automatic(Automobile):
             while self.currSpeed < targetSpeed and self.currRevs < self.redLineRevs:
                 self.currRevs += 500
                 self.currSpeed += 2
-                print(f"Current Revs: {self.currRevs}")
-                print(f"Current Speed: {self.currSpeed}")
+                print(f"Current RPMs  : {self.currRevs}")
+                print(f"Current Speed : {self.currSpeed}")
                 time.sleep(0.5)
             try:
                 self.upShift()
@@ -32,9 +38,9 @@ class Automatic(Automobile):
             print(f"\nCurrent Gear: {self.currGear.name}")
             while self.currSpeed > targetSpeed and self.currRevs > 2000:
                 self.currRevs -= 1000
-                self.currSpeed -= 5
-                print(f"Current Revs: {self.currRevs}")
-                print(f"Current Speed: {self.currSpeed}")
+                self.currSpeed -= 4
+                print(f"Current RPMs  : {self.currRevs}")
+                print(f"Current Speed : {self.currSpeed}")
                 time.sleep(0.5)
             try:
                 self.downShift()
@@ -46,8 +52,33 @@ class Automatic(Automobile):
     def setPark(self):
         self.currGear = Gear.PARK
 
+    def displayOptions(self, inDrive):
+        if inDrive:
+            print(f"\nCurrent speed : {self.currSpeed} mph\n")
+            if self.currSpeed == 0:
+                displayNonDriveOptions()
+                print("\nChoose a gear to switch to (above) or enter a speed to accelerate to : ", end='')
+            else:
+                print("What speed would you like to go? : ", end='')
+        else:
+            print(f"\nCurrent Gear : {self.currGear.name}\n")
+            displayNonDriveOptions()
+            print("DRIVE   : 'd' or 'D'")
+            print("QUIT    : 'q' or 'Q'")
+            print(f"\nWhat Gear would you like to switch too? (Options Above) : ", end='')
+
     def drive(self):
-        pass
+        self.setNeutral()
+        self.upShift()
+        while self.currGear.value > Gear.NEUTRAL.value:
+            self.displayOptions(True)
+            speed = int(input())
+            if speed < 0:
+                print("Speed must be greater than or equal to 0")
+            elif speed < self.currSpeed:
+                self.decelerate(speed)
+            else:
+                self.accelerate(speed)
 
     def handleShiftChange(self, action):
         if action in ['p', 'P']:
@@ -56,21 +87,14 @@ class Automatic(Automobile):
             self.setReverse()
         elif action in ['n', 'N']:
             self.setNeutral()
-        elif action in ['d' 'D']:
+        elif action in ['d', 'D']:
             self.drive()
-
-    def displayOptions(self):
-        print(f"\nCurrent Gear : {self.currGear.name}\n")
-        print(f"{Gear.PARK.name} : 'p' or 'P'\n{Gear.REVERSE.name} : 'r' or 'R'\n{Gear.NEUTRAL.name} : 'n' or 'N'")
-        print("DRIVE : 'd' or 'D'")
-        print("QUIT : 'q' or 'Q'")
-        print(f"\nWhat Gear would you like to switch too? (Options Above) : ", end='')
 
     def operate(self):
         action = 'p'
         while action not in ['q', 'Q']:
             self.handleShiftChange(action)
-            self.displayOptions()
+            self.displayOptions(False)
             action = input()
 
 

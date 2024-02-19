@@ -34,7 +34,7 @@ class Automobile(ABC):
         pass
 
     @abstractmethod
-    def displayOptions(self):
+    def displayOptions(self, inDrive):
         pass
 
     @abstractmethod
