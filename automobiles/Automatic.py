@@ -64,7 +64,7 @@ class Automatic(Automobile):
             print(f"\nCurrent Gear : {self.currGear.name}\n")
             displayNonDriveOptions()
             print("DRIVE   : 'd' or 'D'")
-            print("QUIT    : 'q' or 'Q'")
+            print(f"QUIT {self.name} : 'q' or 'Q'")
             print(f"\nWhat Gear would you like to switch too? (Options Above) : ", end='')
 
     def drive(self):

@@ -43,7 +43,7 @@ class Manual(Automobile):
         print(f"{Gear.REVERSE.name} : 'r' or 'R'\n{Gear.NEUTRAL.name} : 'n' or 'N'")
         for i in range(self.noGears):
             print(f"{Gear(i + 1).name} : '{Gear(i + 1).value}'")
-        print("QUIT : 'q' or 'Q'")
+        print(f"QUIT {self.name} : 'q' or 'Q'")
         print(f"\nWhat Gear would you like to switch too? (Options Above) : ", end='')
 
     def operate(self):
