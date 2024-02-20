@@ -7,7 +7,7 @@ class Manual(Automobile):
     def __init__(self, name, noGears):
         super().__init__(name, noGears)
 
-    def __setGear(self, gear):
+    def _setGear(self, gear):
         if gear.value < 1:
             print("\nYou can not shift to a gear below First")
         elif gear.value > self.noGears:
@@ -35,7 +35,7 @@ class Manual(Automobile):
                 print("\nNot a valid input")
                 return
             gear = int(action)
-            self.__setGear(Gear(gear))
+            self._setGear(Gear(gear))
 
     def _displayOptions(self, inDrive):
         print(f"\nCurrent Gear : {self.currGear.name}\n")
