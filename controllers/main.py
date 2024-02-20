@@ -4,7 +4,7 @@ from NRG_trasmission.automobiles.Manual import Manual
 
 def getNoGears(name):
     noGears = "!"
-    while not noGears.isnumeric() or int(noGears) > 10:
+    while not noGears.isnumeric() or int(noGears) > 10 or int(noGears) < 1:
         print(f"\nHow many gears does your {name} have? (Number between 1 and 10) : ", end='')
         noGears = input()
     return int(noGears)
