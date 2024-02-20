@@ -7,50 +7,50 @@ class Manual(Automobile):
     def __init__(self, name, noGears):
         super().__init__(name, noGears)
 
-    def setGear(self, gear):
+    def __setGear(self, gear):
         if gear.value < 1:
             print("\nYou can not shift to a gear below First")
-        elif gear.value > self.noGears:
-            print(f"\nYour automobile only has {self.noGears} gears")
+        elif gear.value > self._noGears:
+            print(f"\nYour automobile only has {self._noGears} gears")
         else:
-            self.currGear = gear
+            self._currGear = gear
 
-    def handleShiftChange(self, action):
+    def _handleShiftChange(self, action):
         if action in ['d', 'D']:
             try:
-                self.downShift()
+                self._downShift()
             except Exception as e:
                 print(f"\n{e}")
         elif action in ['u', 'U']:
             try:
-                self.upShift()
+                self._upShift()
             except Exception as e:
                 print(f"\n{e}")
         elif action in ['n', 'N']:
-            self.setNeutral()
+            self._setNeutral()
         elif action in ['r', 'R']:
-            self.setReverse()
+            self._setReverse()
         else:
             if not action.isnumeric():
                 print("\nNot a valid input")
                 return
             gear = int(action)
-            self.setGear(Gear(gear))
+            self.__setGear(Gear(gear))
 
-    def displayOptions(self):
-        print(f"\nCurrent Gear : {self.currGear.name}\n")
+    def _displayOptions(self, inDrive):
+        print(f"\nCurrent Gear : {self._currGear.name}\n")
         print(f"Down Shift 1 gear : 'd' or 'D'\nUp Shift 1 gear : 'u' or 'U'")
         print(f"{Gear.REVERSE.name} : 'r' or 'R'\n{Gear.NEUTRAL.name} : 'n' or 'N'")
-        for i in range(self.noGears):
+        for i in range(self._noGears):
             print(f"{Gear(i + 1).name} : '{Gear(i + 1).value}'")
-        print(f"QUIT {self.name} : 'q' or 'Q'")
+        print(f"QUIT {self._getName()} : 'q' or 'Q'")
         print(f"\nWhat Gear would you like to switch too? (Options Above) : ", end='')
 
     def operate(self):
         action = 'n'
         while action not in ['q', 'Q']:
-            self.handleShiftChange(action)
-            self.displayOptions()
+            self._handleShiftChange(action)
+            self._displayOptions(False)
             action = input()
 
 

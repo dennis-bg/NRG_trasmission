@@ -6,35 +6,38 @@ from NRG_trasmission.automobiles.Gear import Gear
 class Automobile(ABC):
 
     def __init__(self, name, noGears):
-        self.currGear = Gear.NEUTRAL
-        self.currSpeed = 0
-        self.noGears = noGears
-        self.name = name
+        self._currGear = Gear.NEUTRAL
+        self._currSpeed = 0
+        self._noGears = noGears
+        self.__name = name
 
-    def upShift(self):
-        if self.currGear.value == self.noGears:
+    def _getName(self):
+        return self.__name
+
+    def _upShift(self):
+        if self._currGear.value == self._noGears:
             raise Exception("You are in the highest gear")
         else:
-            self.currGear = Gear(self.currGear.value + 1)
+            self._currGear = Gear(self._currGear.value + 1)
 
-    def downShift(self):
-        if self.currGear in [Gear.NEUTRAL, Gear.REVERSE]:
-            raise Exception(f"You are in {self.currGear.name} and cannot down shift")
+    def _downShift(self):
+        if self._currGear in [Gear.NEUTRAL, Gear.REVERSE]:
+            raise Exception(f"You are in {self._currGear.name} and cannot down shift")
         else:
-            self.currGear = Gear(self.currGear.value - 1)
+            self._currGear = Gear(self._currGear.value - 1)
 
-    def setNeutral(self):
-        self.currGear = Gear.NEUTRAL
+    def _setNeutral(self):
+        self._currGear = Gear.NEUTRAL
 
-    def setReverse(self):
-        self.currGear = Gear.REVERSE
+    def _setReverse(self):
+        self._currGear = Gear.REVERSE
 
     @abstractmethod
-    def handleShiftChange(self, action):
+    def _handleShiftChange(self, action):
         pass
 
     @abstractmethod
-    def displayOptions(self, inDrive):
+    def _displayOptions(self, inDrive):
         pass
 
     @abstractmethod
