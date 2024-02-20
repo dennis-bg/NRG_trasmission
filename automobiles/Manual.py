@@ -10,10 +10,10 @@ class Manual(Automobile):
     def __setGear(self, gear):
         if gear.value < 1:
             print("\nYou can not shift to a gear below First")
-        elif gear.value > self._noGears:
-            print(f"\nYour automobile only has {self._noGears} gears")
+        elif gear.value > self.noGears:
+            print(f"\nYour automobile only has {self.noGears} gears")
         else:
-            self._currGear = gear
+            self.currGear = gear
 
     def _handleShiftChange(self, action):
         if action in ['d', 'D']:
@@ -38,12 +38,12 @@ class Manual(Automobile):
             self.__setGear(Gear(gear))
 
     def _displayOptions(self, inDrive):
-        print(f"\nCurrent Gear : {self._currGear.name}\n")
+        print(f"\nCurrent Gear : {self.currGear.name}\n")
         print(f"Down Shift 1 gear : 'd' or 'D'\nUp Shift 1 gear : 'u' or 'U'")
         print(f"{Gear.REVERSE.name} : 'r' or 'R'\n{Gear.NEUTRAL.name} : 'n' or 'N'")
-        for i in range(self._noGears):
+        for i in range(self.noGears):
             print(f"{Gear(i + 1).name} : '{Gear(i + 1).value}'")
-        print(f"QUIT {self._getName()} : 'q' or 'Q'")
+        print(f"QUIT {self.name} : 'q' or 'Q'")
         print(f"\nWhat Gear would you like to switch too? (Options Above) : ", end='')
 
     def operate(self):

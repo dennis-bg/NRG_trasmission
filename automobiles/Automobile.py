@@ -11,26 +11,47 @@ class Automobile(ABC):
         self._noGears = noGears
         self.__name = name
 
-    def _getName(self):
+    @property
+    def name(self):
         return self.__name
 
-    def _upShift(self):
-        if self._currGear.value == self._noGears:
-            raise Exception("You are in the highest gear")
-        else:
-            self._currGear = Gear(self._currGear.value + 1)
+    @property
+    def noGears(self):
+        return self._noGears
 
-    def _downShift(self):
-        if self._currGear in [Gear.NEUTRAL, Gear.REVERSE]:
-            raise Exception(f"You are in {self._currGear.name} and cannot down shift")
-        else:
-            self._currGear = Gear(self._currGear.value - 1)
+    @property
+    def currSpeed(self):
+        return self._currSpeed
+
+    @currSpeed.setter
+    def currSpeed(self, value):
+        self._currSpeed = value
+
+    @property
+    def currGear(self):
+        return self._currGear
+
+    @currGear.setter
+    def currGear(self, value):
+        self._currGear = value
 
     def _setNeutral(self):
         self._currGear = Gear.NEUTRAL
 
     def _setReverse(self):
         self._currGear = Gear.REVERSE
+
+    def _upShift(self):
+        if self._currGear.value == self._noGears:
+            raise Exception("You are in the highest gear")
+        else:
+            self._currGear = Gear(self.currGear.value + 1)
+
+    def _downShift(self):
+        if self._currGear in [Gear.NEUTRAL, Gear.REVERSE]:
+            raise Exception(f"You are in {self._currGear.name} and cannot down shift")
+        else:
+            self._currGear = Gear(self.currGear.value - 1)
 
     @abstractmethod
     def _handleShiftChange(self, action):
