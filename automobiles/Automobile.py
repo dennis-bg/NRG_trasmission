@@ -43,7 +43,7 @@ class Automobile(ABC):
 
     def _upShift(self):
         if self._currGear.value == self._noGears:
-            raise Exception("You are in the highest gear")
+            raise Exception("\nYou are in the highest gear")
         else:
             self._currGear = Gear(self.currGear.value + 1)
 

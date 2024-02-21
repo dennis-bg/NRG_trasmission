@@ -1,4 +1,9 @@
+import math
 from enum import Enum
+
+
+def getAcceleration(gear):
+    return (2 / gear.value) + (gear.value // 3)
 
 
 class Gear(Enum):

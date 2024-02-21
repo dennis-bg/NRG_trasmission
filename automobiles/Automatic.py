@@ -1,7 +1,7 @@
 import time
 
 from NRG_trasmission.automobiles.Automobile import Automobile
-from NRG_trasmission.automobiles.Gear import Gear
+from NRG_trasmission.automobiles.Gear import Gear, getAcceleration
 
 
 def displayNonDriveOptions():
@@ -17,39 +17,41 @@ class Automatic(Automobile):
         self.__redLineRevs = redLineRevs
         super().__init__(name, noGears)
 
-    def __accelerate(self, targetSpeed):
-        while self.currSpeed < targetSpeed and self.currGear.value <= self.noGears:
+    def _accelerate(self, targetSpeed):
+        while self.currSpeed < targetSpeed:
             print(f"\nCurrent Gear: {self.currGear.name}")
             while self.currSpeed < targetSpeed and self.__currRevs < self.__redLineRevs:
                 self.__currRevs += 500
-                self.currSpeed += 2
+                self.currSpeed = min(self.currSpeed + getAcceleration(self.currGear), targetSpeed)
                 print(f"Current RPMs  : {self.__currRevs}")
-                print(f"Current Speed : {self._currSpeed}")
+                print(f"Current Speed : {int(self._currSpeed)}")
                 time.sleep(0.5)
-            try:
-                self._upShift()
-                self.__currRevs = 1500
-            except Exception as e:
-                print(e)
-                break
+            if self.currSpeed != targetSpeed:
+                try:
+                    self._upShift()
+                    self.__currRevs = 1500
+                except Exception as e:
+                    print(f"{e}, cannot accelerate anymore")
+                    return
 
-    def __decelerate(self, targetSpeed=0):
+    def _decelerate(self, targetSpeed=0):
         while self.currSpeed > targetSpeed and self.currGear.value >= 0:
-            print(f"\nCurrent Gear: {self.currGear.name}")
-            while self.currSpeed > targetSpeed and self.__currRevs > 2000:
-                self.__currRevs -= 1000
-                self.currSpeed -= 4
+            print(f"\nCurrent Gear : {self.currGear.name}")
+            while self.currSpeed > targetSpeed and self.__currRevs > 1500:
+                self.__currRevs -= 500
+                self.currSpeed = max(self.currSpeed - getAcceleration(self.currGear), targetSpeed)
                 print(f"Current RPMs  : {self.__currRevs}")
-                print(f"Current Speed : {self.currSpeed}")
+                print(f"Current Speed : {int(self._currSpeed)}")
                 time.sleep(0.5)
-            try:
-                self._downShift()
-                self.__currRevs = self.__redLineRevs
-            except Exception as e:
-                print(e)
-                break
+            if self.currSpeed != targetSpeed:
+                try:
+                    self._downShift()
+                    self.__currRevs = self.__redLineRevs
+                except Exception as e:
+                    print(e)
+                    break
 
-    def __setPark(self):
+    def _setPark(self):
         self.currGear = Gear.PARK
 
     def _displayOptions(self, inDrive):
@@ -67,28 +69,29 @@ class Automatic(Automobile):
             print(f"QUIT {self.name} : 'q' or 'Q'")
             print(f"\nWhat Gear would you like to switch too? (Options Above) : ", end='')
 
-    def __drive(self):
+    def _drive(self):
         self._setNeutral()
         self._upShift()
-        while self.currGear.value > Gear.NEUTRAL.value:
+        self.__currRevs = 1500
+        while input not in ['p', 'P', 'n', 'N', 'r', 'R']:
             self._displayOptions(True)
             speed = int(input())
             if speed < 0:
                 print("Speed must be greater than or equal to 0")
             elif speed < self.currSpeed:
-                self.__decelerate(speed)
+                self._decelerate(speed)
             else:
-                self.__accelerate(speed)
+                self._accelerate(speed)
 
     def _handleShiftChange(self, action):
         if action in ['p', 'P']:
-            self.__setPark()
+            self._setPark()
         elif action in ['r', 'R']:
             self._setReverse()
         elif action in ['n', 'N']:
             self._setNeutral()
         elif action in ['d', 'D']:
-            self.__drive()
+            self._drive()
 
     def operate(self):
         action = 'p'
@@ -99,7 +102,7 @@ class Automatic(Automobile):
 
 
 def main():
-    automatic_car = Automatic("Toyota", 5, 6000)
+    automatic_car = Automatic("Toyota", 6, 6000)
     automatic_car.operate()
 
 
