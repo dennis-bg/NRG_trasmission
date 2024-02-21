@@ -13,23 +13,26 @@ def displayNonDriveOptions():
 class Automatic(Automobile):
 
     def __init__(self, name, noGears, redLineRevs):
-        self.__currRevs = 1500
-        self.__redLineRevs = redLineRevs
+        self._currRevs = 1500
+        self._redLineRevs = redLineRevs
         super().__init__(name, noGears)
+
+    def _setPark(self):
+        self.currGear = Gear.PARK
 
     def _accelerate(self, targetSpeed):
         while self.currSpeed < targetSpeed:
             print(f"\nCurrent Gear  : {self.currGear.name}")
-            while self.currSpeed < targetSpeed and self.__currRevs < self.__redLineRevs:
-                self.__currRevs += 500
+            while self.currSpeed < targetSpeed and self._currRevs < self._redLineRevs:
+                self._currRevs += 500
                 self.currSpeed = min(self.currSpeed + getAcceleration(self.currGear), targetSpeed)
-                print(f"Current RPMs  : {self.__currRevs}")
+                print(f"Current RPMs  : {self._currRevs}")
                 print(f"Current Speed : {int(self._currSpeed)}")
-                time.sleep(0.5)
+                time.sleep(0.1)
             if self.currSpeed != targetSpeed:
                 try:
                     self._upShift()
-                    self.__currRevs = 1500
+                    self._currRevs = 1500
                 except Exception as e:
                     print(f"{e}, cannot accelerate anymore")
                     return
@@ -37,22 +40,19 @@ class Automatic(Automobile):
     def _decelerate(self, targetSpeed=0):
         while self.currSpeed > targetSpeed and self.currGear.value >= 0:
             print(f"\nCurrent Gear  : {self.currGear.name}")
-            while self.currSpeed > targetSpeed and self.__currRevs > 1500:
-                self.__currRevs -= 500
+            while self.currSpeed > targetSpeed and self._currRevs > 1500:
+                self._currRevs -= 500
                 self.currSpeed = max(self.currSpeed - getAcceleration(self.currGear), targetSpeed)
-                print(f"Current RPMs  : {self.__currRevs}")
+                print(f"Current RPMs  : {self._currRevs}")
                 print(f"Current Speed : {int(self._currSpeed)}")
                 time.sleep(0.5)
             if self.currSpeed != targetSpeed:
                 try:
                     self._downShift()
-                    self.__currRevs = self.__redLineRevs
+                    self._currRevs = self._redLineRevs
                 except Exception as e:
                     print(e)
                     break
-
-    def _setPark(self):
-        self.currGear = Gear.PARK
 
     def _displayOptions(self, inDrive):
         if inDrive:
@@ -72,7 +72,7 @@ class Automatic(Automobile):
     def _drive(self):
         self._setNeutral()
         self._upShift()
-        self.__currRevs = 1500
+        self._currRevs = 1500
         validInputs = ['p', 'P', 'n', 'N', 'r', 'R']
         while True:
             self._displayOptions(True)
@@ -108,7 +108,7 @@ class Automatic(Automobile):
         action = 'p'
         while action not in ['q', 'Q']:
             shiftFromDrive = self._handleShiftChange(action)
-            if shiftFromDrive:
+            if shiftFromDrive is not None:
                 self._handleShiftChange(shiftFromDrive)
             self._displayOptions(False)
             action = input()

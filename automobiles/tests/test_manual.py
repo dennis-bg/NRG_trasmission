@@ -86,7 +86,7 @@ class TestManual(unittest.TestCase):
     @patch('builtins.input', side_effect=['1', '2', '3', 'n', 'r', 'n', 'q'])
     @patch('NRG_trasmission.automobiles.Manual.Manual._handleShiftChange')
     @patch('NRG_trasmission.automobiles.Manual.Manual._displayOptions')
-    def test_operate(self, mock_input, mock_handleShiftChange, mock_displayOptions):
+    def test_operate(self, mock_displayOptions, mock_handleShiftChange, mock_input):
         self.manual_car.operate()
         self.assertEqual(mock_handleShiftChange.call_count, 7)
         self.assertEqual(mock_displayOptions.call_count, 7)
