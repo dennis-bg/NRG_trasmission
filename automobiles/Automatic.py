@@ -19,7 +19,7 @@ class Automatic(Automobile):
 
     def _accelerate(self, targetSpeed):
         while self.currSpeed < targetSpeed:
-            print(f"\nCurrent Gear: {self.currGear.name}")
+            print(f"\nCurrent Gear  : {self.currGear.name}")
             while self.currSpeed < targetSpeed and self.__currRevs < self.__redLineRevs:
                 self.__currRevs += 500
                 self.currSpeed = min(self.currSpeed + getAcceleration(self.currGear), targetSpeed)
@@ -36,7 +36,7 @@ class Automatic(Automobile):
 
     def _decelerate(self, targetSpeed=0):
         while self.currSpeed > targetSpeed and self.currGear.value >= 0:
-            print(f"\nCurrent Gear : {self.currGear.name}")
+            print(f"\nCurrent Gear  : {self.currGear.name}")
             while self.currSpeed > targetSpeed and self.__currRevs > 1500:
                 self.__currRevs -= 500
                 self.currSpeed = max(self.currSpeed - getAcceleration(self.currGear), targetSpeed)
@@ -73,30 +73,43 @@ class Automatic(Automobile):
         self._setNeutral()
         self._upShift()
         self.__currRevs = 1500
-        while input not in ['p', 'P', 'n', 'N', 'r', 'R']:
+        validInputs = ['p', 'P', 'n', 'N', 'r', 'R']
+        while True:
             self._displayOptions(True)
-            speed = int(input())
-            if speed < 0:
+            inputSpeed = input()
+            if not inputSpeed.isnumeric():
+                if inputSpeed in validInputs:
+                    return inputSpeed
+                else:
+                    print("\nNot a valid input")
+                    continue
+            targetSpeed = int(inputSpeed)
+            if targetSpeed < 0:
                 print("Speed must be greater than or equal to 0")
-            elif speed < self.currSpeed:
-                self._decelerate(speed)
+            elif targetSpeed < self.currSpeed:
+                self._decelerate(targetSpeed)
             else:
-                self._accelerate(speed)
+                self._accelerate(targetSpeed)
 
     def _handleShiftChange(self, action):
         if action in ['p', 'P']:
             self._setPark()
+            return None
         elif action in ['r', 'R']:
             self._setReverse()
+            return None
         elif action in ['n', 'N']:
             self._setNeutral()
+            return None
         elif action in ['d', 'D']:
-            self._drive()
+            return self._drive()
 
     def operate(self):
         action = 'p'
         while action not in ['q', 'Q']:
-            self._handleShiftChange(action)
+            shiftFromDrive = self._handleShiftChange(action)
+            if shiftFromDrive:
+                self._handleShiftChange(shiftFromDrive)
             self._displayOptions(False)
             action = input()
 
