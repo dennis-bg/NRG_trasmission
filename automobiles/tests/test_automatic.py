@@ -1,11 +1,10 @@
 import unittest
 from io import StringIO
 
-from unittest.mock import patch, Mock, PropertyMock, MagicMock
+from unittest.mock import patch
 
 from NRG_trasmission.automobiles.Automatic import Automatic, displayNonDriveOptions
 from NRG_trasmission.automobiles.enums.Gear import Gear
-from NRG_trasmission.automobiles.enums.InputOptions import InputOptions
 
 
 class TestAutomatic(unittest.TestCase):
@@ -81,18 +80,15 @@ class TestAutomatic(unittest.TestCase):
         self.assertEqual(mock_drive.call_count, 2)
         self.assertEqual(shiftChangeReturnVal, 'N')
 
-    # @patch('builtins.input', side_effect=['5', '15', 'p', ''])
+    @patch('builtins.input', side_effect=['5', '15', 'p'])
     @patch('NRG_trasmission.automobiles.Automatic.Automatic._accelerate')
     @patch('NRG_trasmission.automobiles.Automatic.Automatic._decelerate')
-    def test_drive(self, mock_decelerate, mock_accelerate):
-        mock_accelerate.side_effect = MagicMock(side_effect=lambda speed: setattr(self.automatic_car, 'currSpeed', speed))
-        mock_decelerate.side_effect = MagicMock(side_effect=lambda speed: setattr(self.automatic_car, 'currSpeed', speed))
-        with patch('builtins.input', side_effect=[InputOptions.QUIT.value[0]]):
-            self.automatic_car._drive()
-        mock_accelerate.assert_called_once_with(50)
-        # mock_decelerate.assert_called_once_with(5)
-        # mock_accelerate.assert_called_once_with(15)
-        # self.assertEqual(returnVal, 'p')
+    def test_drive(self, mock_decelerate, mock_accelerate, mock_input):
+        self.automatic_car.currSpeed = 10
+        returnVal = self.automatic_car._drive()
+        mock_decelerate.assert_called_once_with(5)
+        mock_accelerate.assert_called_once_with(15)
+        self.assertEqual(returnVal, 'p')
 
     @patch('builtins.input', side_effect=['n', 'r', 'p', 'q', 'd', 'q'])
     @patch('NRG_trasmission.automobiles.Automatic.Automatic._handleShiftChange')

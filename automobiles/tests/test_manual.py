@@ -49,7 +49,7 @@ class TestManual(unittest.TestCase):
 
     @patch('sys.stdout', new_callable=StringIO)
     def test_handleShiftChange_invalid(self, mock_stdout):
-        expected_output = "\nNot a valid input\n"
+        expected_output = "\nInvalid input\n"
         self.manual_car._handleShiftChange('a')
         self.assertEqual(mock_stdout.getvalue(), expected_output)
 
