@@ -44,7 +44,7 @@ def main():
         redLine = 0 if isManual else getRedLine()
         automobile = Manual(name, noGears) if isManual else Automatic(name, noGears, redLine)
         automobile.operate()
-        print("\n========================================================\n")
+        print("\n===============================================================\n")
 
 
 if __name__ == '__main__':

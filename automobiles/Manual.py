@@ -33,7 +33,7 @@ class Manual(Automobile):
             self._setReverse()
         else:
             if not action.isnumeric():
-                print("\nNot a valid input")
+                print("\nInvalid input")
                 return
             gear = int(action)
             self._setGear(Gear(gear))

@@ -31,6 +31,7 @@ class Automatic(Automobile):
         time.sleep(0.1)
 
     def _accelerate(self, targetSpeed):
+        print("\n===== Accelerating =====")
         while self.currSpeed < targetSpeed:
             print(f"\nCurrent Gear  : {self.currGear.name}")
             while self.currSpeed < targetSpeed and self._currRevs < self._redLineRevs:
@@ -43,9 +44,12 @@ class Automatic(Automobile):
                     self._currRevs = startingRevs
                 except Exception as e:
                     print(f"{e}, cannot accelerate anymore")
+                    print("\n===== Finished Accelerating =====")
                     return
+        print("\n===== Finished Accelerating =====")
 
     def _decelerate(self, targetSpeed=0):
+        print("\n===== Decelerating =====")
         while self.currSpeed > targetSpeed:
             print(f"\nCurrent Gear  : {self.currGear.name}")
             while self.currSpeed > targetSpeed and self._currRevs > startingRevs:
@@ -58,7 +62,9 @@ class Automatic(Automobile):
                     self._currRevs = self._redLineRevs
                 except Exception as e:
                     print(e)
+                    print("\n===== Finished Decelerating =====")
                     return
+        print("\n===== Finished Decelerating =====")
 
     def _displayOptions(self, inDrive):
         if inDrive:
