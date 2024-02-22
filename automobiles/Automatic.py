@@ -81,10 +81,9 @@ class Automatic(Automobile):
         print("\n===== Finished Decelerating =====")
 
     # displays input options
-    # if not in drive, option to PARK, REVERSE, NEUTRAL, and DRIVE
-    # if in drive but not moving, option to PARK, REVERSE, NEUTRAL, or accelerate to a speed
+    # if not in DRIVE, option to PARK, REVERSE, NEUTRAL, DRIVE, and QUIT
+    # if in DRIVE but not moving, option to PARK, REVERSE, NEUTRAL, or accelerate to a speed
     # if moving, only option to change speed
-    # if in PARK, option to QUIT
     def _displayOptions(self, inDrive):
         if inDrive:
             print(f"\nCurrent speed : {int(self.currSpeed)} mph\n")
