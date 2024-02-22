@@ -6,6 +6,10 @@ def getAcceleration(gear):
     return (2 / gear.value) + (gear.value // 3)
 
 
+def gearToString(gear):
+    return f"{gear.name}{' ' * (10 - len(gear.name))}: '{gear.value}'"
+
+
 class Gear(Enum):
     PARK = -2
     REVERSE = -1

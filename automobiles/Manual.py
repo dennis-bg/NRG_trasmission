@@ -1,5 +1,5 @@
 from NRG_trasmission.automobiles.Automobile import Automobile
-from NRG_trasmission.automobiles.enums.Gear import Gear
+from NRG_trasmission.automobiles.enums.Gear import Gear, gearToString
 from NRG_trasmission.automobiles.enums.InputOptions import InputOptions, inputOptionToString
 
 
@@ -46,7 +46,9 @@ class Manual(Automobile):
             print(inputOptionToString(InputOptions.REVERSE))
         print(inputOptionToString(InputOptions.NEUTRAL))
         for i in range(self.noGears):
-            print(f"{Gear(i + 1).name}{' ' * (10 - len(Gear(i + 1).name))}: '{Gear(i + 1).value}'")
+            gear = Gear(i + 1)
+            if self.currGear != gear:
+                print(gearToString(gear))
         if self.currGear == Gear.NEUTRAL:
             print(inputOptionToString(InputOptions.QUIT))
         print(f"\nWhat Gear would you like to switch too? (Options Above) : ", end='')
@@ -59,8 +61,8 @@ class Manual(Automobile):
             nextAction = input()
             if self.currGear != Gear.NEUTRAL and nextAction in InputOptions.QUIT.value:
                 print(f"\nYou must be in {Gear.NEUTRAL.name} to Quit")
-                continue
-            action = nextAction
+            else:
+                action = nextAction
 
 
 def main():
