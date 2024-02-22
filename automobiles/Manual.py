@@ -46,17 +46,21 @@ class Manual(Automobile):
             print(inputOptionToString(InputOptions.REVERSE))
         print(inputOptionToString(InputOptions.NEUTRAL))
         for i in range(self.noGears):
-            print(f"{Gear(i + 1).name}{' '*(10-len(Gear(i + 1).name))}: '{Gear(i + 1).value}'")
+            print(f"{Gear(i + 1).name}{' ' * (10 - len(Gear(i + 1).name))}: '{Gear(i + 1).value}'")
         if self.currGear == Gear.NEUTRAL:
             print(inputOptionToString(InputOptions.QUIT))
         print(f"\nWhat Gear would you like to switch too? (Options Above) : ", end='')
 
     def operate(self):
-        action = 'n'
+        action = InputOptions.NEUTRAL.value[0]
         while action not in InputOptions.QUIT.value:
             self._handleShiftChange(action)
             self._displayOptions(False)
-            action = input()
+            nextAction = input()
+            if self.currGear != Gear.NEUTRAL and nextAction in InputOptions.QUIT.value:
+                print(f"\nYou must be in {Gear.NEUTRAL.name} to Quit")
+                continue
+            action = nextAction
 
 
 def main():
