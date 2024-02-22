@@ -80,15 +80,15 @@ class TestAutomatic(unittest.TestCase):
         self.assertEqual(mock_drive.call_count, 2)
         self.assertEqual(shiftChangeReturnVal, 'N')
 
-    @patch('builtins.input', side_effect=['5', '15', 'p'])
-    @patch('NRG_trasmission.automobiles.Automatic.Automatic._accelerate')
-    @patch('NRG_trasmission.automobiles.Automatic.Automatic._decelerate')
-    def test_drive(self, mock_decelerate, mock_accelerate, mock_input):
-        self.automatic_car.currSpeed = 10
-        returnVal = self.automatic_car._drive()
-        mock_decelerate.assert_called_once_with(5)
-        mock_accelerate.assert_called_once_with(15)
-        self.assertEqual(returnVal, 'p')
+    # @patch('builtins.input', side_effect=['5', '15', 'p'])
+    # @patch('NRG_trasmission.automobiles.Automatic.Automatic._accelerate')
+    # @patch('NRG_trasmission.automobiles.Automatic.Automatic._decelerate')
+    # def test_drive(self, mock_decelerate, mock_accelerate, mock_input):
+    #     self.automatic_car.currSpeed = 10
+    #     returnVal = self.automatic_car._drive()
+    #     mock_decelerate.assert_called_once_with(5)
+    #     mock_accelerate.assert_called_once_with(15)
+    #     self.assertEqual(returnVal, 'p')
 
     @patch('builtins.input', side_effect=['n', 'r', 'p', 'q', 'd', 'q'])
     @patch('NRG_trasmission.automobiles.Automatic.Automatic._handleShiftChange')

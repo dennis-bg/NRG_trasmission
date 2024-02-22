@@ -3,6 +3,8 @@ from NRG_trasmission.automobiles.enums.Gear import Gear, gearToString
 from NRG_trasmission.automobiles.enums.InputOptions import InputOptions, inputOptionToString
 
 
+# Concrete class that describes Manual automobiles
+# Extends Automobile class
 class Manual(Automobile):
 
     def __init__(self, name, noGears):
@@ -16,6 +18,7 @@ class Manual(Automobile):
         else:
             self.currGear = gear
 
+    # handles the user input to shift to the appropriate gear
     def _handleShiftChange(self, action):
         if action in InputOptions.DOWNSHIFT.value:
             try:
@@ -38,6 +41,10 @@ class Manual(Automobile):
             gear = int(action)
             self._setGear(Gear(gear))
 
+    # displays input options
+    # shows options to UPSHIFT, DOWNSHIFT, NEUTRAL
+    # shows numbered gears except the current numbered gear
+    # if in NEUTRAL, shows REVERSE and QUIT
     def _displayOptions(self, inDrive):
         print(f"\nCurrent Gear : {self.currGear.name}\n")
         print("DOWNSHIFT : 'd' or 'D'")
@@ -53,6 +60,7 @@ class Manual(Automobile):
             print(inputOptionToString(InputOptions.QUIT))
         print(f"\nWhat Gear would you like to switch too? (Options Above) : ", end='')
 
+    # controls user flow until they QUIT the automobile
     def operate(self):
         action = InputOptions.NEUTRAL.value[0]
         while action not in InputOptions.QUIT.value:
@@ -63,12 +71,3 @@ class Manual(Automobile):
                 print(f"\nYou must be in {Gear.NEUTRAL.name} to Quit")
             else:
                 action = nextAction
-
-
-def main():
-    manual_car = Manual("Toyota", 5)
-    manual_car.operate()
-
-
-if __name__ == "__main__":
-    main()
