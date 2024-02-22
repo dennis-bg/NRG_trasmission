@@ -3,7 +3,8 @@ from enum import Enum
 
 
 def getAcceleration(gear):
-    return (2 / gear.value) + (gear.value // 3)
+    denominator = gear.value if gear != Gear.NEUTRAL else 1
+    return (2 / denominator) + (gear.value // 3)
 
 
 def gearToString(gear):

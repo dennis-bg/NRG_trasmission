@@ -85,9 +85,13 @@ class Automatic(Automobile):
             inputSpeed = input()
             if not inputSpeed.isnumeric():
                 if inputSpeed in validInputs:
-                    return inputSpeed
+                    if self.currSpeed > 0:
+                        print("\nYou must be stopped to change gears")
+                        continue
+                    else:
+                        return inputSpeed
                 else:
-                    print("\nNot a valid input")
+                    print("\nInvalid input")
                     continue
             targetSpeed = int(inputSpeed)
             if targetSpeed < 0:
@@ -109,9 +113,11 @@ class Automatic(Automobile):
             return None
         elif action in InputOptions.DRIVE.value:
             return self._drive()
+        else:
+            print("\nInvalid Input")
 
     def operate(self):
-        action = 'p'
+        action = InputOptions.PARK.value[0]
         while action not in InputOptions.QUIT.value:
             shiftFromDrive = self._handleShiftChange(action)
             if shiftFromDrive is not None:
