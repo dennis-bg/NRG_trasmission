@@ -2,7 +2,7 @@ import unittest
 from unittest.mock import patch
 from io import StringIO
 
-from NRG_trasmission.automobiles.Gear import Gear
+from NRG_trasmission.automobiles.enums.Gear import Gear
 from NRG_trasmission.automobiles.Manual import Manual
 
 
@@ -70,16 +70,16 @@ class TestManual(unittest.TestCase):
     def test_displayOptions(self, mock_stdout):
         self.manual_car._displayOptions(False)
         expected_output = "\nCurrent Gear : NEUTRAL\n" \
-                          "\nDown Shift 1 gear : 'd' or 'D'\n" \
-                          "Up Shift 1 gear : 'u' or 'U'\n" \
-                          "REVERSE : 'r' or 'R'\n" \
-                          "NEUTRAL : 'n' or 'N'\n" \
-                          "FIRST : '1'\n" \
-                          "SECOND : '2'\n" \
-                          "THIRD : '3'\n" \
-                          "FOURTH : '4'\n" \
-                          "FIFTH : '5'\n" \
-                          "QUIT Test Car : 'q' or 'Q'\n" \
+                          "\nDOWNSHIFT : 'd' or 'D'\n" \
+                          "UPSHIFT   : 'u' or 'U'\n" \
+                          "REVERSE   : 'r' or 'R'\n" \
+                          "NEUTRAL   : 'n' or 'N'\n" \
+                          "FIRST     : '1'\n" \
+                          "SECOND    : '2'\n" \
+                          "THIRD     : '3'\n" \
+                          "FOURTH    : '4'\n" \
+                          "FIFTH     : '5'\n" \
+                          "QUIT      : 'q' or 'Q'\n" \
                           "\nWhat Gear would you like to switch too? (Options Above) : "
         self.assertEqual(mock_stdout.getvalue(), expected_output)
 

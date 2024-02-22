@@ -1,6 +1,6 @@
 from abc import ABC, abstractmethod
 
-from NRG_trasmission.automobiles.Gear import Gear
+from NRG_trasmission.automobiles.enums.Gear import Gear
 
 
 class Automobile(ABC):

@@ -1,6 +1,6 @@
 import unittest
 
-from NRG_trasmission.automobiles.Gear import Gear
+from NRG_trasmission.automobiles.enums.Gear import Gear
 from NRG_trasmission.automobiles.Manual import Manual
 
 

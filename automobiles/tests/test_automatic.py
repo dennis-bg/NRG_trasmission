@@ -4,7 +4,7 @@ from io import StringIO
 from unittest.mock import patch
 
 from NRG_trasmission.automobiles.Automatic import Automatic, displayNonDriveOptions
-from NRG_trasmission.automobiles.Gear import Gear
+from NRG_trasmission.automobiles.enums.Gear import Gear
 
 
 class TestAutomatic(unittest.TestCase):
@@ -105,9 +105,9 @@ class TestAutomatic(unittest.TestCase):
 
     @patch('sys.stdout', new_callable=StringIO)
     def test_displayNonDriveOptions(self, mock_stdout):
-        expected_output = f"{Gear.PARK.name}    : 'p' or 'P'\n" \
-                          f"{Gear.REVERSE.name} : 'r' or 'R'\n" \
-                          f"{Gear.NEUTRAL.name} : 'n' or 'N'\n"
+        expected_output = f"{Gear.PARK.name}      : 'p' or 'P'\n" \
+                          f"{Gear.REVERSE.name}   : 'r' or 'R'\n" \
+                          f"{Gear.NEUTRAL.name}   : 'n' or 'N'\n"
         displayNonDriveOptions()
         self.assertEqual(mock_stdout.getvalue(), expected_output)
 
@@ -115,9 +115,9 @@ class TestAutomatic(unittest.TestCase):
     def test_displayOptions_in_drive_stopped(self, mock_stdout):
         self.automatic_car._displayOptions(True)
         expected_output = "\nCurrent speed : 0 mph\n" \
-                          f"\n{Gear.PARK.name}    : 'p' or 'P'\n" \
-                          f"{Gear.REVERSE.name} : 'r' or 'R'\n" \
-                          f"{Gear.NEUTRAL.name} : 'n' or 'N'\n" \
+                          f"\n{Gear.PARK.name}      : 'p' or 'P'\n" \
+                          f"{Gear.REVERSE.name}   : 'r' or 'R'\n" \
+                          f"{Gear.NEUTRAL.name}   : 'n' or 'N'\n" \
                           "\nChoose a gear to switch to (above) or enter a speed to accelerate to : "
         self.assertEqual(mock_stdout.getvalue(), expected_output)
 

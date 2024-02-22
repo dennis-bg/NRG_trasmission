@@ -1,5 +1,6 @@
 from NRG_trasmission.automobiles.Automobile import Automobile
-from NRG_trasmission.automobiles.Gear import Gear
+from NRG_trasmission.automobiles.enums.Gear import Gear
+from NRG_trasmission.automobiles.enums.InputOptions import InputOptions, inputOptionToString
 
 
 class Manual(Automobile):
@@ -8,7 +9,7 @@ class Manual(Automobile):
         super().__init__(name, noGears)
 
     def _setGear(self, gear):
-        if gear.value < 1:
+        if gear.value < Gear.FIRST.value:
             print("\nYou can not shift to a gear below First")
         elif gear.value > self.noGears:
             print(f"\nYour automobile only has {self.noGears} gears")
@@ -16,19 +17,19 @@ class Manual(Automobile):
             self.currGear = gear
 
     def _handleShiftChange(self, action):
-        if action in ['d', 'D']:
+        if action in InputOptions.DOWNSHIFT.value:
             try:
                 self._downShift()
             except Exception as e:
                 print(f"\n{e}")
-        elif action in ['u', 'U']:
+        elif action in InputOptions.UPSHIFT.value:
             try:
                 self._upShift()
             except Exception as e:
                 print(f"\n{e}")
-        elif action in ['n', 'N']:
+        elif action in InputOptions.NEUTRAL.value:
             self._setNeutral()
-        elif action in ['r', 'R']:
+        elif self.currGear == Gear.NEUTRAL and action in InputOptions.REVERSE.value:
             self._setReverse()
         else:
             if not action.isnumeric():
@@ -39,16 +40,20 @@ class Manual(Automobile):
 
     def _displayOptions(self, inDrive):
         print(f"\nCurrent Gear : {self.currGear.name}\n")
-        print(f"Down Shift 1 gear : 'd' or 'D'\nUp Shift 1 gear : 'u' or 'U'")
-        print(f"{Gear.REVERSE.name} : 'r' or 'R'\n{Gear.NEUTRAL.name} : 'n' or 'N'")
+        print("DOWNSHIFT : 'd' or 'D'")
+        print(inputOptionToString(InputOptions.UPSHIFT))
+        if self.currGear == Gear.NEUTRAL:
+            print(inputOptionToString(InputOptions.REVERSE))
+        print(inputOptionToString(InputOptions.NEUTRAL))
         for i in range(self.noGears):
-            print(f"{Gear(i + 1).name} : '{Gear(i + 1).value}'")
-        print(f"QUIT {self.name} : 'q' or 'Q'")
+            print(f"{Gear(i + 1).name}{' '*(10-len(Gear(i + 1).name))}: '{Gear(i + 1).value}'")
+        if self.currGear == Gear.NEUTRAL:
+            print(inputOptionToString(InputOptions.QUIT))
         print(f"\nWhat Gear would you like to switch too? (Options Above) : ", end='')
 
     def operate(self):
         action = 'n'
-        while action not in ['q', 'Q']:
+        while action not in InputOptions.QUIT.value:
             self._handleShiftChange(action)
             self._displayOptions(False)
             action = input()
